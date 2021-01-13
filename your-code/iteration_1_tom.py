@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
 
+This is a temporary script file.
+"""
+#change
 # define rooms and items
 david_henriques = {
     "name": "david henriques",
@@ -16,7 +22,30 @@ catarina_costa = {
     "name": "catarina costa",
     "type": "boss",
 }
-
+couch = {
+    "name": "couch",
+    "type": "furniture",
+}
+piano = {
+    "name": "piano",
+    "type": "furniture",
+}
+queen_bed = {
+    "name": "queen bed",
+    "type": "furniture",
+}
+double_bed = {
+    "name": "double bed",
+    "type": "furniture",
+}
+dresser = {
+    "name": "dresser",
+    "type": "furniture",
+}
+dining_table = {
+    "name": "dining table",
+    "type": "furniture",
+}
 python_weapon = {
     "name": "weapon for david henriques",
     "type": "weapon",
@@ -37,125 +66,63 @@ certification_weapon = {
     "type": "weapon",
     "target": munique_martins,
 }
-your_desk = {
-    "name": "your desk",
-    "type": "furniture",
-}
-your_chair = {
-    "name": "your chair",
-    "type": "furniture",
-}
-teacher_whiteboard = {
-    "name": "teacher whiteboard",
-    "type": "furniture",
-}
-stylish_plant = {
-    "name": "stylish plant",
-    "type": "furniture",
-}
-
-
-monster_energy_can = {
-    "name": "monster energy can",
-    "type": "furniture",
-}
-
-couch = {
-    "name": "couch",
-    "type": "furniture",
-}
-
-projector = {
-    "name": "projector",
-    "type": "furniture",
-}
-
-fruit_bowl = {
-    "name": "fruit bowl",
-    "type": "furniture",
-}
-espresso_machine = {
-    "name": "espresso machine",
-    "type": "furniture",
-}
-
-ping_pong_table = {
-    "name": "ping pong table",
-    "type": "furniture",
-}
-
-data_analytics = {
-    "name": "data analytics",
+game_room = {
+    "name": "game room",
     "type": "room",
 }
-hallway= {
-    "name": "hallway",
+bedroom_1 = {
+    "name": "bedroom 1",
     "type": "room",
 }
-career_room= {
-    "name": "career room",
+bedroom_2 = {
+    "name": "bedroom 2",
     "type": "room",
 }
-kitchen = {
-    "name": "kitchen",
+living_room = {
+    "name": "living room",
     "type": "room",
 }
-balcony = {
-  "name": "balcony"
+outside = {
+  "name": "outside"
 }
-all_furniture = [your_desk, your_chair, teacher_whiteboard, stylish_plant, monster_energy_can, couch, projector, espresso_machine, fruit_bowl, ping_pong_table]
-all_rooms = [data_analytics, hallway, career_room, kitchen, balcony]
+all_furniture = [couch, piano, queen_bed, double_bed, dresser, dining_table]
 all_weapons = [python_weapon, sql_weapon, job_weapon, certification_weapon]
+all_rooms = [game_room, bedroom_1, bedroom_2, living_room, outside]
 all_bosses = [david_henriques, jose_pereira, catarina_costa, munique_martins]
 # define which items/rooms are related
-
 object_relations = {
     #room
-    "data analytics": [your_desk, your_chair, teacher_whiteboard, david_henriques],
-    "hallway": [stylish_plant, monster_energy_can, david_henriques, catarina_costa, jose_pereira],
-    "career room": [couch, projector, catarina_costa],
-    "kitchen": [fruit_bowl, espresso_machine,ping_pong_table,jose_pereira, munique_martins],
-    #object with key
-    "teacher whiteboard": [python_weapon],
-    "monster energy can": [job_weapon],
-    "projector": [sql_weapon],
-    "ping pong table": [certification_weapon],
+    "game room": [couch, piano, david_henriques],
+    "bedroom 1": [queen_bed, david_henriques, catarina_costa, jose_pereira],
+    "bedroom 2": [double_bed, dresser, catarina_costa],
+    "living room": [dining_table, jose_pereira, munique_martins],
+    #object with weapon
+    "piano": [python_weapon],
+    "queen bed": [job_weapon],
+    "double bed": [sql_weapon],
+    "dresser": [certification_weapon],
     #outside
-    "balcony": [munique_martins],
-    #door
-    "david henriques": [data_analytics, hallway],
-    "catarina costa": [hallway, career_room],
-    "jose pereira": [hallway, kitchen],
-    "munique martins": [kitchen, balcony]
-
+    "outside": [munique_martins],
+    #boss
+    "david henriques": [game_room, bedroom_1],
+    "jose pereira": [bedroom_1, bedroom_2],
+    "catarina costa": [bedroom_1, living_room],
+    "munique martins": [living_room, outside]
 }
-
-
-
 # define game state. Do not directly change this dict.
 # Instead, when a new game starts, make a copy of this
 # dict and use the copy to store gameplay state. This
 # way you can replay the game multiple times.
-
-
 INIT_GAME_STATE = {
-    "current_room": data_analytics,
-    "keys_collected": [],
-    "target_room": balcony
+    "current_room": game_room,
+    "weapons_collected": [],
+    "target_room": outside
 }
-
-
-
-
-
 def linebreak():
     """
     Print a line break
     """
     print("\n\n")
-
-
-
 def start_game():
     """
     Start the game
@@ -163,7 +130,6 @@ def start_game():
     print(
         "You wake up on a couch and find yourself in a strange house with no windows which you have never been to before. You don't remember why you are here and what had happened before. You feel some unknown danger is approaching and you must get out of the house, NOW!")
     play_room(game_state["current_room"])
-
 def play_room(room):
     """
     Play a room. First check if the room being played is the target room.
@@ -185,14 +151,12 @@ def play_room(room):
             print("Not sure what you mean. Type 'explore' or 'examine'.")
             play_room(room)
         linebreak()
-
 def explore_room(room):
     """
     Explore a room. List all items belonging to this room.
     """
     items = [i["name"] for i in object_relations[room["name"]]]
     print("You explore the room. This is " + room["name"] + ". You find " + ", ".join(items))
-
 def get_next_room_of_boss(boss, current_room):
     """
     From object_relations, find the two rooms connected to the given boss.
@@ -216,7 +180,6 @@ def examine_item(item_name):
     current_room = game_state["current_room"]
     next_room = ""
     output = None
-
     for item in object_relations[current_room["name"]]:
         if (item["name"] == item_name):
             output = "You examine " + item_name + ". "
@@ -239,7 +202,6 @@ def examine_item(item_name):
                     output += "There isn't anything interesting about it."
             print(output)
             break
-            
     if (output is None):
         print("The item you requested is not found in the current room.")
     if (next_room and input("Do you want to go to the next room? Enter 'yes' or 'no'").strip() == 'yes'):
@@ -247,12 +209,5 @@ def examine_item(item_name):
     else:
         play_room(current_room)
         
-
 game_state = INIT_GAME_STATE.copy()
-
 start_game()
-
-
-
-
-
