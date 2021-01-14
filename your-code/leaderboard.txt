@@ -1,0 +1,2 @@
+Lowest positive score wins
+ollie: 102.99443817138672
