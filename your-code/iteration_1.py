@@ -1,6 +1,10 @@
+
 #latest version
 import time
 import random
+import winsound
+
+
 david_henriques = {
     "name": "david henriques",
     "type": "boss",
@@ -17,6 +21,7 @@ catarina_costa = {
     "name": "catarina costa",
     "type": "boss",
 }
+
 python_weapon = {
     "name": "python to defeat david henriques",
     "type": "weapon",
@@ -53,18 +58,22 @@ stylish_plant = {
     "name": "stylish plant",
     "type": "furniture",
 }
+
 monster_energy_can = {
     "name": "monster energy can",
     "type": "furniture",
 }
+
 couch = {
     "name": "couch",
     "type": "furniture",
 }
+
 projector = {
     "name": "projector",
     "type": "furniture",
 }
+
 fruit_bowl = {
     "name": "fruit bowl",
     "type": "furniture",
@@ -73,10 +82,12 @@ espresso_machine = {
     "name": "espresso machine",
     "type": "furniture",
 }
+
 ping_pong_table = {
     "name": "ping pong table",
     "type": "furniture",
 }
+
 data_analytics = {
     "name": "data analytics",
     "type": "room",
@@ -107,17 +118,20 @@ CR = ["couch", "projector"]
 K = ["fruit bowl", "espresso machine","ping pong table"]
 
 # define which items/rooms are related
+
 object_relations = {
     #room
     "data analytics": [your_desk, your_chair, teacher_whiteboard, david_henriques],
     "hallway": [stylish_plant, monster_energy_can, david_henriques, catarina_costa, jose_pereira],
     "career room": [couch, projector, catarina_costa],
     "kitchen": [fruit_bowl, espresso_machine,ping_pong_table,jose_pereira, munique_martins],
+
     #object with key
     random.choice(DA): [python_weapon],
     random.choice(HW): [job_weapon],
     random.choice(CR): [sql_weapon],
     random.choice(K): [certification_weapon],
+
     #outside
     "balcony": [munique_martins],
     #door
@@ -126,15 +140,21 @@ object_relations = {
     "jose pereira": [hallway, kitchen],
     "munique martins": [kitchen, balcony]
 }
+
+
+
 # define game state. Do not directly change this dict.
 # Instead, when a new game starts, make a copy of this
 # dict and use the copy to store gameplay state. This
 # way you can replay the game multiple times.
+
+
 INIT_GAME_STATE = {
     "current_room": data_analytics,
     "weapons_collected": [],
     "target_room": balcony
 }
+
 start_time = time.time()
 time_limit = start_time + 180
 
@@ -155,6 +175,8 @@ def linebreak():
     Print a line break
     """
     print("\n\n")
+
+
 def start_game():
     """
     Start the game
@@ -162,6 +184,8 @@ def start_game():
     print(
         "You have made the life changing decision to attend Ironhack, however you have been enjoying Lisbon a little too much. \nYou wake up at your desk and look at your watch, you have three minutes until graduation! \nNavigate the campus and acquire the necessary digital weapons to land your dream job in the tech-ecosystem. \nGood luck making it past the staff!")
     play_room(game_state["current_room"])
+
+    
 def play_room(room):
     """
     Play a room. First check if the room being played is the target room.
@@ -169,6 +193,7 @@ def play_room(room):
     explore (list all items in this room) or examine an item found here.
     """
     game_state["current_room"] = room
+    winsound.PlaySound('escape_ironhack.wav', winsound.SND_ASYNC)
     if (game_state["current_room"] == game_state["target_room"]):
         new = leaderboard_add()
         add = new + '\n'
@@ -189,6 +214,7 @@ def play_room(room):
             print("Not sure what you mean. Type 'explore' or 'examine'.")
             play_room(room)
         linebreak()
+
 def explore_room(room):
     """
     Explore a room. List all items belonging to this room.
@@ -196,6 +222,7 @@ def explore_room(room):
     time_check()
     items = [i["name"] for i in object_relations[room["name"]]]
     print("You explore the room. This is " + room["name"] + ". You find " + ", ".join(items))
+
 def get_next_room_of_boss(boss, current_room):
     """
     From object_relations, find the two rooms connected to the given boss.
@@ -203,6 +230,7 @@ def get_next_room_of_boss(boss, current_room):
     """
     time_check()
     connected_rooms = object_relations[boss["name"]]
+    winsound.PlaySound('defeat_boss.wav', winsound.SND_ASYNC)
     for room in connected_rooms:
         if (not current_room == room):
             return room
@@ -221,6 +249,7 @@ def examine_item(item_name):
     current_room = game_state["current_room"]
     next_room = ""
     output = None
+
     for item in object_relations[current_room["name"]]:
         if (item["name"] == item_name):
             output = "You examine " + item_name + ". "
@@ -243,11 +272,16 @@ def examine_item(item_name):
                     output += "There isn't anything interesting about it."
             print(output)
             break
+            
     if (output is None):
         print("The item you requested is not found in the current room.")
     if (next_room and input("Do you want to go to the next room? Enter 'yes' or 'no'").strip() == 'yes'):
         play_room(next_room)
     else:
         play_room(current_room)
+
 game_state = INIT_GAME_STATE.copy()
+
+
 start_game()
+
