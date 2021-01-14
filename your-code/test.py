@@ -1,6 +1,4 @@
-#latest version
-import time
-import random
+# define rooms and items
 david_henriques = {
     "name": "david henriques",
     "type": "boss",
@@ -100,12 +98,6 @@ all_furniture = [your_desk, your_chair, teacher_whiteboard, stylish_plant, monst
 all_rooms = [data_analytics, hallway, career_room, kitchen, balcony]
 all_weapons = [python_weapon, sql_weapon, job_weapon, certification_weapon]
 all_bosses = [david_henriques, jose_pereira, catarina_costa, munique_martins]
-
-DA = ["your desk", "your chair", "teacher whiteboard"]
-HW = ["stylish plant", "monster energy can"]
-CR = ["couch", "projector"]
-K = ["fruit bowl", "espresso machine","ping pong table"]
-
 # define which items/rooms are related
 object_relations = {
     #room
@@ -114,10 +106,10 @@ object_relations = {
     "career room": [couch, projector, catarina_costa],
     "kitchen": [fruit_bowl, espresso_machine,ping_pong_table,jose_pereira, munique_martins],
     #object with key
-    random.choice(DA): [python_weapon],
-    random.choice(HW): [job_weapon],
-    random.choice(CR): [sql_weapon],
-    random.choice(K): [certification_weapon],
+    "teacher whiteboard": [python_weapon],
+    "monster energy can": [job_weapon],
+    "projector": [sql_weapon],
+    "ping pong table": [certification_weapon],
     #outside
     "balcony": [munique_martins],
     #door
@@ -135,21 +127,6 @@ INIT_GAME_STATE = {
     "weapons_collected": [],
     "target_room": balcony
 }
-start_time = time.time()
-time_limit = start_time + 180
-
-def time_check():
-  current_time = time.time()
-  if current_time > time_limit:
-    print("time up, no tech job for you")
-    exit()
-
-def leaderboard_add():
-  score = time_limit - time.time()
-  name = input("congrats you have graduated, enter your name for the leaderboard:")
-  total = str(name) + ": " + str(score)
-  return total
-
 def linebreak():
     """
     Print a line break
@@ -160,7 +137,7 @@ def start_game():
     Start the game
     """
     print(
-        "You have made the life changing decision to attend Ironhack, however you have been enjoying Lisbon a little too much. \nYou wake up at your desk and look at your watch, you have three minutes until graduation! \nNavigate the campus and acquire the necessary digital weapons to land your dream job in the tech-ecosystem. \nGood luck making it past the staff!")
+        "You wake up on a couch and find yourself in a strange school with no windows which you have never been to before. You don't remember why you are here and what had happened before. You feel some unknown danger is approaching and you must get out of the house, NOW!")
     play_room(game_state["current_room"])
 def play_room(room):
     """
@@ -170,20 +147,14 @@ def play_room(room):
     """
     game_state["current_room"] = room
     if (game_state["current_room"] == game_state["target_room"]):
-        new = leaderboard_add()
-        add = new + '\n'
-        text_file = open("leaderboard.txt", "a")
-        text_file.write(add)
-        text_file.close()
+        print("Congrats! You escaped the room!")
     else:
         print("You are now in " + room["name"])
         intended_action = input("What would you like to do? Type 'explore' or 'examine'?").strip()
         if intended_action == "explore":
-            time_check()
             explore_room(room)
             play_room(room)
         elif intended_action == "examine":
-            time_check()
             examine_item(input("What would you like to examine?").strip())
         else:
             print("Not sure what you mean. Type 'explore' or 'examine'.")
@@ -193,7 +164,6 @@ def explore_room(room):
     """
     Explore a room. List all items belonging to this room.
     """
-    time_check()
     items = [i["name"] for i in object_relations[room["name"]]]
     print("You explore the room. This is " + room["name"] + ". You find " + ", ".join(items))
 def get_next_room_of_boss(boss, current_room):
@@ -201,7 +171,6 @@ def get_next_room_of_boss(boss, current_room):
     From object_relations, find the two rooms connected to the given boss.
     Return the room that is not the current_room.
     """
-    time_check()
     connected_rooms = object_relations[boss["name"]]
     for room in connected_rooms:
         if (not current_room == room):
@@ -217,7 +186,6 @@ def examine_item(item_name):
     play either the current or the next room depending on the game state
     to keep playing.
     """
-    time_check()
     current_room = game_state["current_room"]
     next_room = ""
     output = None

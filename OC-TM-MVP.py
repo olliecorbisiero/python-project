@@ -16,30 +16,53 @@ door_d = {
     "name": "door d",
     "type": "door",
 }
+your_desk = {
+    "name": "your desk",
+    "type": "furniture",
+}
+your_chair = {
+    "name": "your chair",
+    "type": "furniture",
+}
+teacher_whiteboard = {
+    "name": "teacher whiteboard",
+    "type": "furniture",
+}
+stylish_plant = {
+    "name": "stylish plant",
+    "type": "furniture",
+}
+
+
+monster_energy_can = {
+    "name": "monster energy can",
+    "type": "furniture",
+}
+
 couch = {
     "name": "couch",
     "type": "furniture",
 }
-piano = {
-    "name": "piano",
+
+projector = {
+    "name": "projector",
     "type": "furniture",
 }
-queen_bed = {
-    "name": "queen bed",
+
+fruit_bowl = {
+    "name": "fruit bowl",
     "type": "furniture",
 }
-double_bed = {
-    "name": "double bed",
+espresso_machine = {
+    "name": "espresso machine",
     "type": "furniture",
 }
-dresser = {
-    "name": "dresser",
+
+ping_pong_table = {
+    "name": "ping pong table",
     "type": "furniture",
 }
-dining_table = {
-    "name": "dining table",
-    "type": "furniture",
-}
+
 key_a = {
     "name": "key for door a",
     "type": "key",
@@ -60,50 +83,50 @@ key_d = {
     "type": "key",
     "target": door_d,
 }
-game_room = {
-    "name": "game room",
+data_analytics = {
+    "name": "data analytics",
     "type": "room",
 }
-bedroom_1 = {
-    "name": "bedroom 1",
+hallway= {
+    "name": "hallway",
     "type": "room",
 }
-bedroom_2 = {
-    "name": "bedroom 2",
+career_room= {
+    "name": "career room",
     "type": "room",
 }
-living_room = {
-    "name": "living room",
+kitchen = {
+    "name": "kitchen",
     "type": "room",
 }
-outside = {
-  "name": "outside"
+balcony = {
+  "name": "balcony"
 }
-all_furniture = [couch, piano, queen_bed, double_bed, dresser, dining_table]
+all_furniture = [your_desk, your_chair, teacher_whiteboard, stylish_plant, monster_energy_can, couch, projector, espresso_machine, fruit_bowl, ping_pong_table]
 all_keys = [key_a, key_b, key_c, key_d]
-all_rooms = [game_room, bedroom_1, bedroom_2, living_room, outside]
+all_rooms = [data_analytics, hallway, career_room, kitchen, balcony]
 all_doors = [door_a, door_b, door_c, door_d]
 
 # define which items/rooms are related
 
 object_relations = {
     #room
-    "game room": [couch, piano, door_a],
-    "bedroom 1": [queen_bed, door_a, door_b, door_c],
-    "bedroom 2": [double_bed, dresser, door_b],
-    "living room": [dining_table, door_c, door_d],
+    "data analytics": [your_desk, your_chair, teacher_whiteboard, door_a],
+    "hallway": [stylish_plant, monster_energy_can, door_a, door_b, door_c],
+    "career room": [couch, projector, door_b],
+    "kitchen": [fruit_bowl, espresso_machine,ping_pong_table,door_c, door_d],
     #object with key
-    "piano": [key_a],
-    "queen bed": [key_b],
-    "double bed": [key_c],
-    "dresser": [key_d],
+    "teacher whiteboard": [key_a],
+    "monster energy can": [key_b],
+    "projector": [key_c],
+    "ping pong table": [key_d],
     #outside
-    "outside": [door_d],
+    "balcony": [door_d],
     #door
-    "door a": [game_room, bedroom_1],
-    "door b": [bedroom_1, bedroom_2],
-    "door c": [bedroom_1, living_room],
-    "door d": [living_room, outside]
+    "door a": [data_analytics, hallway],
+    "door b": [hallway, career_room],
+    "door c": [hallway, kitchen],
+    "door d": [kitchen, balcony]
 
 }
 
@@ -113,9 +136,9 @@ object_relations = {
 # way you can replay the game multiple times.
 
 INIT_GAME_STATE = {
-    "current_room": game_room,
+    "current_room": data_analytics,
     "keys_collected": [],
-    "target_room": outside
+    "target_room": balcony
 }
 
 
@@ -226,6 +249,7 @@ def examine_item(item_name):
 game_state = INIT_GAME_STATE.copy()
 
 start_game()
+
 
 
 
