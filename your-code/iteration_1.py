@@ -1,3 +1,5 @@
+import winsound
+
 # define rooms and items
 david_henriques = {
     "name": "david henriques",
@@ -145,14 +147,11 @@ INIT_GAME_STATE = {
 
 
 
-
-
 def linebreak():
     """
     Print a line break
     """
     print("\n\n")
-
 
 
 def start_game():
@@ -163,6 +162,7 @@ def start_game():
         "You wake up on a couch and find yourself in a strange house with no windows which you have never been to before. You don't remember why you are here and what had happened before. You feel some unknown danger is approaching and you must get out of the house, NOW!")
     play_room(game_state["current_room"])
 
+    
 def play_room(room):
     """
     Play a room. First check if the room being played is the target room.
@@ -170,6 +170,7 @@ def play_room(room):
     explore (list all items in this room) or examine an item found here.
     """
     game_state["current_room"] = room
+    winsound.PlaySound('escape_ironhack.wav', winsound.SND_ASYNC)
     if (game_state["current_room"] == game_state["target_room"]):
         print("Congrats! You escaped the room!")
     else:
@@ -198,6 +199,7 @@ def get_next_room_of_boss(boss, current_room):
     Return the room that is not the current_room.
     """
     connected_rooms = object_relations[boss["name"]]
+    winsound.PlaySound('defeat_boss.wav', winsound.SND_ASYNC)
     for room in connected_rooms:
         if (not current_room == room):
             return room
@@ -249,4 +251,6 @@ def examine_item(item_name):
 
 game_state = INIT_GAME_STATE.copy()
 
+
 start_game()
+
